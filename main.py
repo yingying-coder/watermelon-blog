@@ -74,10 +74,10 @@ class Comment(db.Model, Base):
 
 def admin_only(func):
     @wraps(func)
-    def wrapper(*args, **kwargs):
-        blog = BlogPost.query.get(args[0])
+    def wrapper(post_id):
+        blog = BlogPost.query.get(post_id)
         if current_user.is_authenticated and current_user.id == blog.author_id:
-            return func(*args, **kwargs)
+            return func(post_id)
         return abort(403)
     return wrapper
 
