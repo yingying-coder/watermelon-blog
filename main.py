@@ -71,14 +71,14 @@ class Comment(db.Model, Base):
 # db.drop_all()
 # db.create_all()
 
+
 def admin_only(func):
     @wraps(func)
-    def wrapper(post_id):
-        blog = BlogPost.query.get(post_id)
+    def wrapper(*args, **kwargs):
+        blog = BlogPost.query.get(args[0])
         if current_user.is_authenticated and current_user.id == blog.author_id:
-            return func(post_id)
-        else:
-            return abort(403)
+            return func(*args, **kwargs)
+        return abort(403)
     return wrapper
 
 
@@ -215,4 +215,4 @@ def delete_post(post_id):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
