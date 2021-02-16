@@ -70,7 +70,7 @@ class Comment(db.Model, Base):
     blog_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
 
 # db.drop_all()
-# db.create_all()
+db.create_all()
 
 
 def admin_only(func):
